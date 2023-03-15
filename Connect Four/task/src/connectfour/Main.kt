@@ -1,6 +1,6 @@
 package connectfour
 
-val numberRegex = "\\d".toRegex()
+val numberRegex = "\\d*".toRegex()
 var column = 6
 var row = 5
 
@@ -23,19 +23,19 @@ fun main() {
 
     printBoard(row, column, boardMoves)
 
-    var askForPlayerInput = true
-    while (askForPlayerInput) {
+    val askForPlayerInput = true
+    loop@ while (askForPlayerInput) {
         do {
             var invalidInput = true
-            println("$player1 's turn:")
+            println("$player1's turn:")
             val player1Move: String = readln()
 
             if (player1Move == "end") {
-                askForPlayerInput = false
-                break
+                println("Game Over!")
+                break@loop
             }
 
-            if (!isValidMove(player1Move)) {
+            if (!isValidMove(player1Move, boardMoves)) {
                 continue
             }
 
@@ -48,15 +48,15 @@ fun main() {
 
         do {
             var invalidInput = true
-            println("$player2 's turn:")
+            println("$player2's turn:")
             val player2Move: String = readln()
 
             if (player2Move == "end") {
-                askForPlayerInput = false
-                break
+                println("Game Over!")
+                break@loop
             }
 
-            if (!isValidMove(player2Move)) {
+            if (!isValidMove(player2Move, boardMoves)) {
                 continue
             }
 
@@ -73,17 +73,28 @@ private fun addPlayerMoveToBoardMoves(move: Int, player: Int, boardMoves: Array<
 
     val moveValue = if (player == 1) "o" else "*"
 
-    boardMoves.firstOrNull { it[move - 1] == " " }?.apply { set(move - 1, moveValue) }
+    boardMoves.lastOrNull { it[move - 1] == " " }?.apply { set(move - 1, moveValue) }
 
 }
 
-private fun isValidMove(move: String): Boolean = isValidIntegerMove(move) && isMoveValidColumnNumber(move.toInt())
+private fun isValidMove(move: String, boardMoves: Array<Array<String>>): Boolean =
+    isValidIntegerMove(move) && isMoveValidColumnNumber(move.toInt()) && isColumnAvaliableToMove(
+        move.toInt(),
+        boardMoves
+    )
 
 private fun isValidIntegerMove(move: String): Boolean =
     numberRegex.matches(move).also { if (!it) println("Incorrect column number") }
 
 private fun isMoveValidColumnNumber(move: Int): Boolean =
     (move in 1..column).also { if (!it) println("The column number is out of range (1 - $column)") }
+
+private fun isColumnAvaliableToMove(move: Int, boardMoves: Array<Array<String>>): Boolean =
+    boardMoves.any { it[move - 1] == " " }.also {
+        if (!it) {
+            println("Column $move is full")
+        }
+    }
 
 private fun generateBoardAndReturnColumnAndRow(): Pair<Int, Int> {
     var row = 6
