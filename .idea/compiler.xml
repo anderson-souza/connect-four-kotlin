@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="Connect_Four.Connect_Four-task-build-classes-kotlin.main" target="8" />
+      <module name="Connect_Four.Connect_Four-task-build-reports-tests.main" target="8" />
+      <module name="Connect_Four.Connect_Four-task-build-test-results.main" target="8" />
+      <module name="Connect_Four.Connect_Four-task-build-tmp.main" target="8" />
+      <module name="Connect_Four.Connect_Four-task.main" target="8" />
+      <module name="Connect_Four.Topics-Mutable_List-Remove_us.main" target="8" />
+      <module name="Connect_Four.Topics-Mutable_List-Theory.main" target="8" />
+      <module name="Connect_Four.Topics-Work_with_MutableLists-Adding_values.main" target="8" />
+      <module name="Connect_Four.Topics-Work_with_MutableLists-Empty.main" target="8" />
+      <module name="Connect_Four.Topics-Work_with_MutableLists-Theory.main" target="8" />
+      <module name="Connect_Four.util.main" target="8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

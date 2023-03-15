@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ConnectFourTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-02-23T00:41:34" hostname="anderson-souza-pc" time="0.383">
+  <properties/>
+  <testcase name="start" classname="ConnectFourTest" time="0.383"/>
+  <system-out><![CDATA[?[1;31m
+Start test 1?[0m
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 4x5
+Board rows should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 4X5
+Board rows should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 10x6
+Board rows should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 12x6
+Board rows should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 6x1
+Board columns should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 7X4
+Board columns should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 8x10
+Board columns should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 9x30
+Board columns should be from 5 to 9
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 9X5
+Anna VS Joan
+9 X 5 board
+ 1 2 3 4 5
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+?[1;31m
+Start test 2?[0m
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 6x
+Invalid input
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> X5
+Invalid input
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 10k6
+Invalid input
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 12Z6
+Invalid input
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> a  7x9
+Invalid input
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 5x8  t
+Invalid input
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 9X5
+Anna VS Joan
+9 X 5 board
+ 1 2 3 4 5
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+?[1;31m
+Start test 3?[0m
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 5x5
+Anna VS Joan
+5 X 5 board
+ 1 2 3 4 5
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 9X9
+Anna VS Joan
+9 X 9 board
+ 1 2 3 4 5 6 7 8 9
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 9X5
+Anna VS Joan
+9 X 5 board
+ 1 2 3 4 5
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 
+Anna VS Joan
+6 X 7 board
+ 1 2 3 4 5 6 7
+║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ 
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+>    7   x   9   
+Anna VS Joan
+7 X 9 board
+ 1 2 3 4 5 6 7 8 9
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ ║ ║ ║ 
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+>   8  X   6   
+Anna VS Joan
+8 X 6 board
+ 1 2 3 4 5 6
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ ║ 
+Connect Four
+First player's name:
+> Anna
+Second player's name:
+> Joan
+Set the board dimensions (Rows x Columns)
+Press Enter for default (6 x 7)
+> 	  9 	X 	5  	 
+Anna VS Joan
+9 X 5 board
+ 1 2 3 4 5
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+║ ║ ║ ║ ║ ║ 
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
