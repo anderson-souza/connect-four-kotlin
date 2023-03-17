@@ -1,8 +1,12 @@
 package connectfour
 
+
 val numberRegex = "\\d*".toRegex()
 var column = 6
 var row = 5
+
+val player1HorizontalWinRegex = "o{4,}".toRegex()
+val player2HorizontalWinRegex = "\\*{4,}".toRegex()
 
 fun main() {
     println("Connect Four")
@@ -19,7 +23,7 @@ fun main() {
     println("$player1 VS $player2")
     println("$row X $column board")
 
-    val boardMoves: Array<Array<String>> = Array(row) { Array(column + 1) { " " } }
+    val boardMoves: Array<Array<String>> = Array(row) { Array(column) { " " } }
 
     printBoard(row, column, boardMoves)
 
@@ -31,7 +35,6 @@ fun main() {
             val player1Move: String = readln()
 
             if (player1Move == "end") {
-                println("Game Over!")
                 break@loop
             }
 
@@ -46,13 +49,21 @@ fun main() {
 
         printBoard(row, column, boardMoves)
 
+        if (isBoardFull(boardMoves)) {
+            break@loop
+        }
+
+        if (checkWinningCondition(boardMoves, 1)) {
+            println("Player $player1 won")
+            break@loop
+        }
+
         do {
             var invalidInput = true
             println("$player2's turn:")
             val player2Move: String = readln()
 
             if (player2Move == "end") {
-                println("Game Over!")
                 break@loop
             }
 
@@ -66,15 +77,111 @@ fun main() {
         } while (invalidInput)
 
         printBoard(row, column, boardMoves)
+
+        if (isBoardFull(boardMoves)) {
+            break@loop
+        }
+
+        if (checkWinningCondition(boardMoves, 2)) {
+            println("Player $player2 won")
+            break@loop
+        }
+    }
+    println("Game Over!")
+}
+
+private fun isBoardFull(boardMoves: Array<Array<String>>) =
+    (boardMoves.flatten().all { it != " " }).also { if (it) println("It is a draw") }
+
+private fun checkWinningCondition(boardMoves: Array<Array<String>>, player: Int): Boolean {
+
+    val horizontalWin = checkSequence(player, boardMoves)
+
+    if (horizontalWin) {
+        return true
+    }
+
+    val verticalWin = checkSequence(player, transpose(boardMoves))
+
+    if (verticalWin) {
+        return true
+    }
+
+    val diagonals = getDiagonals(boardMoves)
+
+    val diagonalWin = when (player) {
+        1 -> diagonals.any {
+            player1HorizontalWinRegex.matches(it.joinToString("").trim())
+        }
+
+        2 -> diagonals.any {
+            player2HorizontalWinRegex.matches(it.joinToString("").trim())
+        }
+
+        else -> false
+    }
+
+    return diagonalWin
+}
+
+private fun checkSequence(player: Int, boardMoves: Array<Array<String>>) = when (player) {
+    1 -> boardMoves.reversed().any {
+        player1HorizontalWinRegex.matches(it.joinToString("").trim())
+    }
+
+    2 -> boardMoves.reversed().any {
+        player2HorizontalWinRegex.matches(it.joinToString("").trim())
+    }
+
+    else -> false
+}
+
+inline fun <reified T> transpose(xs: Array<Array<T>>): Array<Array<T>> {
+    val cols = xs[0].size
+    val rows = xs.size
+    return Array(cols) { j ->
+        Array(rows) { i ->
+            xs[i][j]
+        }
     }
 }
 
+fun getDiagonals(matrix: Array<Array<String>>): List<List<String>> {
+    val diagonals: MutableList<List<String>> = ArrayList()
+    val numRows = matrix.size
+    val numCols = matrix[0].size
+
+    // Loop through all rows and columns to get diagonals starting from left to right
+    for (i in 0 until numRows + numCols - 1) {
+        val diagonal: MutableList<String> = ArrayList()
+        var row = if (i < numCols) 0 else i - numCols + 1
+        var col = if (i < numCols) i else numCols - 1
+        while (row < numRows && col >= 0) {
+            diagonal.add(matrix[row][col])
+            row++
+            col--
+        }
+        diagonals.add(diagonal)
+    }
+
+    // Loop through all rows and columns to get diagonals starting from right to left
+    for (i in 1 - numCols until numRows) {
+        val diagonal: MutableList<String> = ArrayList()
+        var row = if (i < 0) -i else 0
+        var col = if (i < 0) 0 else i
+        while (row < numRows && col < numCols) {
+            diagonal.add(matrix[row][col])
+            row++
+            col++
+        }
+        diagonals.add(diagonal)
+    }
+    return diagonals
+}
+
 private fun addPlayerMoveToBoardMoves(move: Int, player: Int, boardMoves: Array<Array<String>>) {
-
     val moveValue = if (player == 1) "o" else "*"
-
     boardMoves.lastOrNull { it[move - 1] == " " }?.apply { set(move - 1, moveValue) }
-
 }
 
 private fun isValidMove(move: String, boardMoves: Array<Array<String>>): Boolean =
@@ -145,12 +252,12 @@ private fun printBoard(rowNumber: Int, columnNumber: Int, boardMoves: Array<Arra
         printHeader(row, columnNumber)
         println()
         (0..columnNumber).forEach { column ->
-            if (row in 0 until rowNumber) {
+            if (row in 0 until rowNumber && column < columnNumber) {
                 print("║${boardMoves[row][column]}")
-            }
-
-            if (row == rowNumber) {
+            } else if (row == rowNumber) {
                 printFooter(column, columnNumber)
+            } else {
+                print("║")
             }
         }
     }
