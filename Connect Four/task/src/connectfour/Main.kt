@@ -1,6 +1,5 @@
 package connectfour
 
-
 val numberRegex = "\\d*".toRegex()
 var column = 6
 var row = 5
@@ -8,86 +7,109 @@ var row = 5
 val player1HorizontalWinRegex = "o{4,}".toRegex()
 val player2HorizontalWinRegex = "\\*{4,}".toRegex()
 
+var player1 = ""
+var player2 = ""
+
 fun main() {
     println("Connect Four")
-    println("First player's name:")
-    val player1 = readln()
+    player1 = getPlayerName("First")
+    player2 = getPlayerName("Second")
 
-    println("Second player's name:")
-    val player2 = readln()
-
-    val columnAndRow = generateBoardAndReturnColumnAndRow()
+    val columnAndRow = askBoardDimensionsAndReturnColAndRow()
     column = columnAndRow.first
     row = columnAndRow.second
 
+    val gameManager = askForHowManyGamesAndGetGameManager()
+
     println("$player1 VS $player2")
     println("$row X $column board")
+    if (!gameManager.isSingleMode) {
+        println("Total ${gameManager.numberOfGames} games")
+    }
 
-    val boardMoves: Array<Array<String>> = Array(row) { Array(column) { " " } }
+    var currentPlayerMove = 1
+    games@ for (i in gameManager.currentGame until gameManager.numberOfGames) {
+        gameManager.startNewGame()
+        println(if (gameManager.isSingleMode) "Single game" else "Game #${gameManager.currentGame}")
 
-    printBoard(row, column, boardMoves)
+        val boardMoves: Array<Array<String>> = Array(row) { Array(column) { " " } }
 
-    val askForPlayerInput = true
-    loop@ while (askForPlayerInput) {
-        do {
-            var invalidInput = true
-            println("$player1's turn:")
-            val player1Move: String = readln()
+        printBoard(row, column, boardMoves)
+        loop@ while (true) {
+            do {
+                var invalidInput = true
+                println(if (currentPlayerMove == 1) "$player1's turn:" else "$player2's turn:")
+                val playerMove: String = readln()
 
-            if (player1Move == "end") {
+                if (playerMove == "end") {
+                    break@games
+                }
+
+                if (!isValidMove(playerMove, boardMoves)) {
+                    continue
+                }
+
+                addPlayerMoveToBoardMoves(playerMove.toInt(), currentPlayerMove, boardMoves)
+                invalidInput = false
+
+            } while (invalidInput)
+
+            printBoard(row, column, boardMoves)
+
+            if (isBoardFull(boardMoves)) {
+                gameManager.drawGame()
                 break@loop
             }
 
-            if (!isValidMove(player1Move, boardMoves)) {
-                continue
-            }
-
-            addPlayerMoveToBoardMoves(player1Move.toInt(), 1, boardMoves)
-            invalidInput = false
-
-        } while (invalidInput)
-
-        printBoard(row, column, boardMoves)
-
-        if (isBoardFull(boardMoves)) {
-            break@loop
-        }
-
-        if (checkWinningCondition(boardMoves, 1)) {
-            println("Player $player1 won")
-            break@loop
-        }
-
-        do {
-            var invalidInput = true
-            println("$player2's turn:")
-            val player2Move: String = readln()
-
-            if (player2Move == "end") {
+            if (checkWinningCondition(boardMoves, currentPlayerMove)) {
+                println(if (currentPlayerMove == 1) "Player $player1 won" else "Player $player2 won")
+                gameManager.increasePlayerScore(currentPlayerMove)
+                currentPlayerMove = if (currentPlayerMove == 1) 2 else 1
                 break@loop
             }
 
-            if (!isValidMove(player2Move, boardMoves)) {
-                continue
-            }
-
-            addPlayerMoveToBoardMoves(player2Move.toInt(), 2, boardMoves)
-            invalidInput = false
-
-        } while (invalidInput)
-
-        printBoard(row, column, boardMoves)
-
-        if (isBoardFull(boardMoves)) {
-            break@loop
+            currentPlayerMove = if (currentPlayerMove == 1) 2 else 1
         }
-
-        if (checkWinningCondition(boardMoves, 2)) {
-            println("Player $player2 won")
-            break@loop
-        }
+        printScoreForMultipleGames(gameManager)
     }
     println("Game Over!")
+}
+
+private fun printScoreForMultipleGames(gameManager: GameManager) {
+    if (!gameManager.isSingleMode) {
+        println(
+            "Score\n" +
+                    "$player1: ${gameManager.getPlayer1Score()} $player2: ${gameManager.getPlayer2Score()}"
+        )
+    }
+}
+
+private fun askForHowManyGamesAndGetGameManager(): GameManager {
+    var isInvalidInput = true
+    var numberOfGames: String
+    do {
+        println(
+            "Do you want to play single or multiple games?\n" +
+                    "For a single game, input 1 or press Enter\n" +
+                    "Input a number of games:"
+        )
+        numberOfGames = readln()
+
+        if (numberOfGames.isEmpty()) {
+            numberOfGames = "1"
+        } else if (!numberOfGames.matches(numberRegex) || numberOfGames == "0") {
+            println("Invalid Input")
+            continue
+        }
+        isInvalidInput = false
+    } while (isInvalidInput)
+
+    return GameManager(numberOfGames.toInt())
+}
+
+private fun getPlayerName(playerPosition: String): String {
+    println("$playerPosition player's name:")
+    return readln()
 }
 
 private fun isBoardFull(boardMoves: Array<Array<String>>) =
@@ -129,11 +151,9 @@ private fun checkSequence(player: Int, boardMoves: Array<Array<String>>) = when 
         player1HorizontalWinRegex.matches(it.joinToString("").trim())
     }
 
-    2 -> boardMoves.reversed().any {
+    else -> boardMoves.reversed().any {
         player2HorizontalWinRegex.matches(it.joinToString("").trim())
     }
-
-    else -> false
 }
 
 inline fun <reified T> transpose(xs: Array<Array<T>>): Array<Array<T>> {
@@ -185,7 +205,7 @@ private fun addPlayerMoveToBoardMoves(move: Int, player: Int, boardMoves: Array<
 }
 
 private fun isValidMove(move: String, boardMoves: Array<Array<String>>): Boolean =
-    isValidIntegerMove(move) && isMoveValidColumnNumber(move.toInt()) && isColumnAvaliableToMove(
+    isValidIntegerMove(move) && isMoveValidColumnNumber(move.toInt()) && isColumnAvailableToMove(
         move.toInt(),
         boardMoves
     )
@@ -196,14 +216,14 @@ private fun isValidIntegerMove(move: String): Boolean =
 private fun isMoveValidColumnNumber(move: Int): Boolean =
     (move in 1..column).also { if (!it) println("The column number is out of range (1 - $column)") }
 
-private fun isColumnAvaliableToMove(move: Int, boardMoves: Array<Array<String>>): Boolean =
+private fun isColumnAvailableToMove(move: Int, boardMoves: Array<Array<String>>): Boolean =
     boardMoves.any { it[move - 1] == " " }.also {
         if (!it) {
             println("Column $move is full")
         }
     }
 
-private fun generateBoardAndReturnColumnAndRow(): Pair<Int, Int> {
+private fun askBoardDimensionsAndReturnColAndRow(): Pair<Int, Int> {
     var row = 6
     var column = 7
     var validInput = false
@@ -218,10 +238,10 @@ private fun generateBoardAndReturnColumnAndRow(): Pair<Int, Int> {
                 continue
             }
 
-            val splitedInput = boardDimensionsInput.split("X", ignoreCase = true)
+            val splitInput = boardDimensionsInput.split("X", ignoreCase = true)
 
-            row = splitedInput[0].toInt()
-            column = splitedInput[1].toInt()
+            row = splitInput[0].toInt()
+            column = splitInput[1].toInt()
 
             if (row !in 5..9) {
                 println("Board rows should be from 5 to 9")
