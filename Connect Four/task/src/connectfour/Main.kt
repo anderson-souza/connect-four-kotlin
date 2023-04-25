@@ -58,21 +58,28 @@ fun main() {
 
             if (isBoardFull(boardMoves)) {
                 gameManager.drawGame()
+                currentPlayerMove = changeMoveToOtherPlayer(currentPlayerMove)
                 break@loop
             }
 
             if (checkWinningCondition(boardMoves, currentPlayerMove)) {
                 println(if (currentPlayerMove == 1) "Player $player1 won" else "Player $player2 won")
                 gameManager.increasePlayerScore(currentPlayerMove)
-                currentPlayerMove = if (currentPlayerMove == 1) 2 else 1
+                currentPlayerMove = changeMoveToOtherPlayer(currentPlayerMove)
                 break@loop
             }
 
-            currentPlayerMove = if (currentPlayerMove == 1) 2 else 1
+            currentPlayerMove = changeMoveToOtherPlayer(currentPlayerMove)
         }
         printScoreForMultipleGames(gameManager)
     }
     println("Game Over!")
+}
+
+private fun changeMoveToOtherPlayer(currentPlayerMove: Int): Int {
+    var currentPlayerMove1 = currentPlayerMove
+    currentPlayerMove1 = if (currentPlayerMove1 == 1) 2 else 1
+    return currentPlayerMove1
 }
 
 private fun printScoreForMultipleGames(gameManager: GameManager) {
@@ -133,11 +140,11 @@ private fun checkWinningCondition(boardMoves: Array<Array<String>>, player: Int)
 
     val diagonalWin = when (player) {
         1 -> diagonals.any {
-            player1HorizontalWinRegex.matches(it.joinToString("").trim())
+            player1HorizontalWinRegex.containsMatchIn(it.joinToString("").trim())
         }
 
         2 -> diagonals.any {
-            player2HorizontalWinRegex.matches(it.joinToString("").trim())
+            player2HorizontalWinRegex.containsMatchIn(it.joinToString("").trim())
         }
 
         else -> false
@@ -148,11 +155,11 @@ private fun checkWinningCondition(boardMoves: Array<Array<String>>, player: Int)
 
 private fun checkSequence(player: Int, boardMoves: Array<Array<String>>) = when (player) {
     1 -> boardMoves.reversed().any {
-        player1HorizontalWinRegex.matches(it.joinToString("").trim())
+        player1HorizontalWinRegex.containsMatchIn(it.joinToString("").trim())
     }
 
     else -> boardMoves.reversed().any {
-        player2HorizontalWinRegex.matches(it.joinToString("").trim())
+        player2HorizontalWinRegex.containsMatchIn(it.joinToString("").trim())
     }
 }
 
